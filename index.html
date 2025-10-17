@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>STEM Virtual Gallery: Regional Artists of Today — Curated by Gerald Ongtangco</title>
+  <meta name="description" content="STEM Virtual Gallery: Regional Artists of Today — a digital exhibit featuring five contemporary Filipino artists, with photos, notes and slide-ready speaker prompts for Canva/Google Slides/Padlet." />
+  <style>
+    /* Simple professional styling */
+    :root{
+    --bg:#dff4ff;
+      --bg-2:#cfeeff;
+      --card:#ffffff;
+      --muted:#657085;
+      --accent:#0f172a;
+      --primary:#2066ff;
+      --glass: rgba(255,255,255,0.75);
+      --glass-2: rgba(32,102,255,0.06);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --radius:14px;
+      --elevation-1: 0 8px 30px rgba(15,23,42,0.06);
+      --elevation-2: 0 18px 48px rgba(15,23,42,0.10);
+      --card-edge: rgba(11,95,255,0.04);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+  background: radial-gradient(1100px 480px at 12% 12%, rgba(56,163,255,0.12), transparent 24%),
+      linear-gradient(180deg, var(--bg), var(--bg-2));
+      color:var(--accent);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      transition: background-color .28s ease, color .18s ease;
+    }
+    header{
+      padding:18px 20px;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+      max-width:1200px;
+      margin:10px auto 22px;
+      align-items:flex-start;
+    }
+  /* glass header */
+  header{ position:sticky; top:12px; background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72)); backdrop-filter: blur(8px) saturate(120%); border-radius:16px; padding:18px; box-shadow:var(--elevation-1); z-index:50 }
+    @media (max-width:680px){ header{ padding:12px } }
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;flex:0 0 56px;
+      background:linear-gradient(135deg,#0b5fff,#7c3aed 85%);
+      color:white;display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:18px;box-shadow:var(--elevation-1);
+    }
+      .brand small{ display:block; color:var(--muted); font-size:12px }
+  html{font-size:16px}
+  h1{margin:0;font-size:22px;line-height:1.05}
+  p.lead{margin:6px 0 0;color:var(--muted);font-size:14px}
+
+  main{max-width:1100px;margin:0 auto;padding:0 20px 64px}
+  html{ scroll-behavior:smooth }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+      align-items:start;
+      transition: all .28s ease;
+    }
+      /* page and card entrance */
+      .page-fade{ opacity:0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease }
+      .page-fade.visible{ opacity:1; transform:none }
+    @media (max-width:1200px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:640px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:0;
+      overflow:hidden;
+      box-shadow:var(--elevation-1), inset 0 -6px 20px var(--card-edge);
+      border:1px solid rgba(11,95,255,0.04);
+      position:relative;
+      transition: transform .36s cubic-bezier(.2,.9,.2,1), box-shadow .28s ease, opacity .22s ease, filter .28s ease;
+      display:flex;flex-direction:column;min-height:420px;
+      will-change: transform, box-shadow;
+    }
+    .card::before{ content:''; position:absolute; left:0; top:0; right:0; height:56px; background:linear-gradient(180deg, rgba(255,255,255,0.36), transparent); pointer-events:none }
+  /* subtle 3D tilt */
+  .card:hover{ transform:translateY(-12px) rotate(-0.3deg); box-shadow:var(--elevation-2); filter:brightness(1.01); }
+  .card.tilt{ transition: transform .18s cubic-bezier(.2,.9,.2,1); transform-origin:center; }
+
+    .card .media{
+      position:relative;
+      height:320px;
+      background:#ddd;
+      overflow:hidden;
+    }
+    .card .media::after{
+      content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.0) 40%, rgba(0,0,0,0.18) 75%);pointer-events:none;
+    }
+    .media .media-overlay{ position:absolute; inset:0; display:flex;align-items:center;justify-content:center;pointer-events:none; opacity:0; transition: opacity .28s ease }
+    .media .media-overlay svg{ width:64px;height:64px; filter:drop-shadow(0 8px 18px rgba(2,6,23,0.18)); transform:translateY(-6px); }
+    .card:hover .media .media-overlay{ opacity:1 }
+    .card .media .img-title{ position:absolute; left:12px; bottom:12px; color:#fff; font-weight:700; text-shadow:0 6px 18px rgba(6,10,24,0.45); font-size:16px; }
+    .card img{
+      width:100%;height:100%;object-fit:cover;display:block;
+      transform-origin:center center;
+      transition: transform .72s cubic-bezier(.2,.9,.2,1), filter .48s ease, opacity .48s ease;
+      opacity:0.02; /* will fade in when loaded */
+      will-change: transform, opacity;
+    }
+    .card:hover img{ transform: scale(1.06); filter: saturate(1.06) contrast(1.02); }
+
+    /* when images have loaded */
+    .img-loaded{ opacity:1 !important; }
+
+    .card .content{
+      padding:14px 16px 16px 16px; display:flex;flex-direction:column;gap:10px;
+    }
+    .chip{ display:inline-block; background:rgba(11,95,255,0.06); color:var(--primary); padding:6px 8px; border-radius:999px; font-weight:700; font-size:12px }
+  .meta-row{ display:flex; gap:8px; align-items:center; font-size:13px; color:var(--muted); }
+    .meta-row a{ color:var(--muted); text-decoration:underline; }
+    .artist-name{font-weight:700;font-size:18px;margin:0}
+    .artist-meta{color:var(--muted);font-size:13px;margin:0}
+    .excerpt{color:#344057;font-size:14px;line-height:1.45}
+    .actions{margin-top:auto;display:flex;gap:8px;align-items:center}
+    .btn{
+      background:transparent;border:1px solid #e6e9f2;padding:9px 12px;border-radius:10px;
+      cursor:pointer;font-weight:700;font-size:13px;color:var(--primary);letter-spacing:0.2px;display:inline-flex;align-items:center;gap:8px
+    }
+    .btn svg{opacity:0.9;height:14px;width:14px}
+    .btn svg{ transition: transform .22s cubic-bezier(.2,.9,.2,1), opacity .18s ease }
+    .btn:hover svg{ transform: translateY(-2px) rotate(-6deg); opacity:1 }
+    .btn.primary{
+      background: linear-gradient(90deg, #2066ff 0%, #7c3aed 100%);color:#fff;border:none;padding:10px 12px;
+      box-shadow:0 8px 20px rgba(11,95,255,0.12);
+    }
+    .btn.primary .label{ color:#fff }
+    /* multi-line exhibit title */
+    .title-lines{ display:inline-block; line-height:1; font-weight:800; letter-spacing:-0.4px; font-size:22px }
+    .title-lines span{ display:block }
+    @media(min-width:920px){ .title-lines{ font-size:30px } }
+    @media(min-width:1200px){ .title-lines{ font-size:36px } }
+  footer{max-width:1100px;margin:28px auto 72px;padding:18px 20px;color:var(--muted);font-size:13px}
+  footer .inner{ display:flex; justify-content:space-between; gap:20px; align-items:center; max-width:1100px; margin:0 auto; }
+  footer .inner .credits{ display:flex; flex-direction:column; gap:6px }
+  footer{ border-top:1px solid rgba(15,23,42,0.04); background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:8px }
+  header.scrolled{ box-shadow: 0 20px 50px rgba(15,23,42,0.12) } 
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(7,10,25,0.0);display:none;
+      align-items:center;justify-content:center;padding:24px;z-index:60;
+      transition: background-color .28s ease, opacity .28s ease, backdrop-filter .28s ease;
+      opacity:0;backdrop-filter: blur(0px) saturate(100%);
+    }
+    .modal-backdrop.show{
+      background:rgba(7,10,25,0.46);opacity:1;backdrop-filter: blur(6px) saturate(120%);
+      display:flex; z-index:120;
+    }
+    .modal.show{ z-index:121 }
+    .modal{
+      width:100%;max-width:980px;background:var(--card);border-radius:var(--radius);padding:20px 20px 22px;box-shadow:0 28px 80px rgba(2,6,23,0.35);
+      max-height:86vh;overflow:auto;display:flex;flex-direction:row;gap:18px;transform:translateY(10px) scale(.995);opacity:0;transition: transform .28s cubic-bezier(.2,.9,.2,1), opacity .28s ease;
+      border:1px solid rgba(2,6,23,0.04);
+    }
+    .modal.show{ transform:none; opacity:1 }
+    .modal.closing{ transform: translateY(8px) scale(.995); opacity:0; transition: transform .28s cubic-bezier(.2,.9,.2,1), opacity .28s ease }
+    @media (max-width:920px){ .modal{ flex-direction:column; } .modal img{ width:100%; height:auto; max-height:360px; } }
+    .modal .modal-body{ flex:1 }
+    .modal .meta-list{ margin-top:10px }
+    .modal .top{display:flex;gap:16px;align-items:center}
+  .modal img{width:260px;height:260px;object-fit:cover;border-radius:8px;box-shadow:0 8px 28px rgba(2,6,23,0.06)}
+    .modal h2{margin:0 0 6px}
+    .close-btn{margin-left:auto;background:transparent;border:none;color:var(--muted);font-weight:700;cursor:pointer;font-size:18px}
+
+    .source-link{font-size:13px;color:var(--muted);text-decoration:underline}
+    .meta-list{margin:10px 0;padding:0;list-style:none;color:var(--muted);font-size:13px}
+    .meta-list li{margin:4px 0}
+    .credit{font-size:12px;color:var(--muted);margin-top:8px}
+  .small{font-size:13px;color:var(--muted)}
+  /* Small UI improvements */
+  .card{ background: linear-gradient(180deg,#fff,#fbfcff); }
+    .btn{ transition: transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s ease, background-color .18s ease, color .18s ease; outline: none; }
+  .btn:hover{ transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 28px rgba(11,95,255,0.08); }
+  .btn:active{ transform: translateY(0) scale(0.995); }
+  /* subtle underline animation for primary action text */
+  .btn .label{ position:relative; display:inline-block }
+  .btn .label::after{ content:''; position:absolute; left:8px; right:8px; bottom:-6px; height:2px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .32s cubic-bezier(.2,.9,.2,1); opacity:0.95 }
+  .btn:hover .label::after{ transform:scaleX(1); }
+  .btn:focus{ box-shadow: 0 0 0 4px rgba(11,95,255,0.08); border-color: var(--primary); }
+  /* Filtered card animation */
+  .card[hidden]{ opacity:0; transform: scale(.995); height:0 !important; margin:0; padding:0; overflow:hidden }
+  .card{ transition: opacity .22s ease, transform .22s ease }
+  /* Search input improvements */
+  #search{ background: #fff; padding:9px 12px; border-radius:10px; border:1px solid #e6e9f2; box-shadow: 0 6px 20px rgba(11,95,255,0.04); }
+  #search:focus{ box-shadow: 0 8px 30px rgba(11,95,255,0.08); outline:none; border-color:var(--primary) }
+  /* excerpt truncation with smooth height transition */
+  .excerpt{ max-height:78px; overflow:hidden; position:relative; transition: max-height .42s cubic-bezier(.2,.9,.2,1), opacity .22s ease }
+  .excerpt.expanded{ max-height:1000px }
+  .read-more{ display:inline-block;margin-top:8px;color:var(--primary);cursor:pointer;font-weight:700; background:transparent;border:none;padding:0 }
+  /* animations */
+  .card{ opacity:0; transform: translateY(8px); transition: transform .38s cubic-bezier(.2,.9,.2,1), opacity .28s ease }
+  .card.show{ opacity:1; transform:none }
+
+  /* dark mode */
+  :root.dark{ --bg:#071022; --card:#071426; --muted:#9aa6b2; --accent:#e6eefb; --primary:#58a0ff }
+  body.dark{ background: linear-gradient(180deg,#071022,#071426); color:var(--accent) }
+  body.dark header{ background: linear-gradient(180deg, rgba(8,12,20,0.7), rgba(8,12,20,0.5)) }
+  body.dark .card{ box-shadow:0 8px 32px rgba(0,0,0,0.5), inset 0 -6px 20px rgba(5,40,80,0.02) }
+  .theme-toggle{ background:transparent;border:1px solid #e6e9f2;padding:8px;border-radius:10px;cursor:pointer }
+
+  /* back-to-top */
+  #backToTop{ position:fixed; right:18px; bottom:22px; background:var(--primary); color:#fff; border:none;padding:10px 12px;border-radius:999px; box-shadow:0 10px 30px rgba(11,95,255,0.12); cursor:pointer; display:none; z-index:80 }
+  /* Decorative background layer */
+  .bg-decor{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden }
+  .bg-decor .blob{ position:absolute; filter:blur(44px); opacity:0.14; transform-origin:center; mix-blend-mode:screen }
+    .bg-decor .blob-a{ width:520px;height:520px;border-radius:50%; left:-6%; top:-12%; background:linear-gradient(135deg,#bfefff 0%, #7fd0ff 45%, #60a5fa 100%); animation:blobMove 18s linear infinite }
+  /* user background controls removed */
+  .bg-decor .blob-b{ width:420px;height:420px;border-radius:50%; right:-4%; bottom:-10%; background:linear-gradient(135deg,#9fdcff 0%, #8ed2ff 50%, #6fc8ff 100%); opacity:0.16; animation:blobMove 22s linear infinite reverse }
+  .bg-decor .blob{ transition: transform .2s linear }
+  .bg-decor .pattern{ position:absolute; inset:0; background-image:linear-gradient(135deg, rgba(255,255,255,0.02) 25%, transparent 25%), linear-gradient(225deg, rgba(255,255,255,0.02) 25%, transparent 25%); background-size:16px 16px; opacity:0.35 }
+  /* faint diagonal texture overlay to add depth */
+  .bg-decor .texture{ position:absolute; inset:0; background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0 6px, transparent 6px 18px); opacity:0.06 }
+  /* decorative wave accent */
+  .decor-wave{ position:absolute; left:0; right:auto; bottom:4%; width:48%; height:auto; z-index:0; opacity:0.18; pointer-events:none; filter: blur(6px) saturate(130%); transform: translateX(-4%); }
+  /* animated wave drift */
+  .decor-wave path{ transform-origin:center; }
+  .decor-wave.animate path{ animation: waveDrift 14s linear infinite; }
+
+  /* sun accent */
+  .decor-sun{ position:absolute; left:6%; top:6%; width:220px; height:220px; border-radius:50%; z-index:0; pointer-events:none; background: radial-gradient(circle at 30% 30%, rgba(255,255,224,0.95), rgba(230,245,255,0.65)); filter: blur(28px) saturate(120%); opacity:0.22; transform: translateZ(0); }
+  @media (max-width:680px){ .decor-sun{ width:140px; height:140px; left:10%; top:8%; opacity:0.18 } }
+
+  /* drifting clouds */
+  .decor-clouds{ position:absolute; left:4%; top:8%; width:56%; height:auto; z-index:0; opacity:0.14; pointer-events:none; }
+  .decor-clouds .cloud{ fill:#ffffff; opacity:0.92; filter: blur(6px) opacity(0.9); }
+  .decor-clouds .cloud.c1{ transform-origin: 20% 20%; animation: cloudFloat 36s linear infinite; }
+  .decor-clouds .cloud.c2{ transform-origin: 60% 10%; animation: cloudFloat 46s linear infinite reverse; opacity:0.9 }
+  .decor-clouds .cloud.c3{ transform-origin: 85% 30%; animation: cloudFloat 52s linear infinite; opacity:0.85 }
+
+  /* subtle grain overlay for texture */
+  .decor-grain{ position:absolute; inset:0; z-index:2; pointer-events:none; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="g"><feTurbulence baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(%23g)" opacity="0.02"/></svg>'); mix-blend-mode:soft-light; opacity:0.24 }
+
+  @keyframes cloudFloat{ 0%{ transform: translateX(-6px) translateY(0) } 50%{ transform: translateX(18px) translateY(-6px) } 100%{ transform: translateX(-6px) translateY(0) } }
+  @keyframes waveDrift{ 0%{ transform: translateX(0) } 50%{ transform: translateX(6px) } 100%{ transform: translateX(0) } }
+  .decor-grid{ z-index:1; mix-blend-mode:overlay }
+  .decor-islands{ z-index:1; mix-blend-mode:screen }
+  /* watermark removed */
+  .controls .actions{ margin-left:auto; display:flex; gap:8px; align-items:center }
+  .controls .count{ font-weight:700; color:var(--muted); font-size:13px }
+  .small-btn{ background:transparent;border:1px solid rgba(15,23,42,0.06);padding:6px 8px;border-radius:8px;cursor:pointer }
+  @keyframes blobMove{ 0%{ transform: translateY(0) scale(1) } 50%{ transform: translateY(36px) scale(1.07) } 100%{ transform: translateY(0) scale(1) } }
+  @media (prefers-reduced-motion: reduce){
+    .bg-decor .blob{ animation: none !important; }
+    .card, .modal, .btn, .btn svg, .excerpt, .modal-backdrop, .grid{ transition: none !important }
+    .decor-grid, .decor-islands{ transition: none !important }
+  }
+  :focus{ outline: none; }
+  :focus-visible{ outline: 3px solid rgba(32,102,255,0.12); outline-offset:3px }
+  /* ensure content sits above decor */
+  header, main, footer, .modal, .modal-backdrop{ position:relative; z-index:45 }
+  /* dark mode variants */
+  body.dark .bg-decor .blob-a{ background:linear-gradient(135deg,#1e3a8a 0%, #2563eb 40%, #7c3aed 100%); opacity:0.14 }
+  body.dark .bg-decor .blob-b{ background:linear-gradient(135deg,#7c3aed 0%, #fb7185 50%, #fb7185 100%); opacity:0.1 }
+  /* Boosted/visible background styles (toggled by body.boost) */
+  .decor-network{ position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen; opacity:0.06; transition: opacity .36s ease, transform .6s cubic-bezier(.2,.9,.2,1) }
+  /* Default network color for light mode (dark strokes on light bg) */
+  .decor-network g{ transition: transform .5s ease, opacity .36s ease; stroke: rgba(15,23,42,0.06); }
+  .decor-network .nodes{ transition: transform .5s ease, opacity .36s ease; fill: rgba(15,23,42,0.06); }
+  .decor-particles{ position:absolute; inset:0; pointer-events:none }
+  /* Particles: use primary color for visibility on light background; dark mode override below */
+  .decor-particles .p{ position:absolute; width:8px; height:8px; border-radius:999px; background: radial-gradient(circle at 30% 30%, rgba(32,102,255,0.95), rgba(160,230,255,0.9)); box-shadow:0 8px 22px rgba(2,6,23,0.12); opacity:0; transform: translateY(0) scale(0.6); transition: opacity .4s ease, transform .6s cubic-bezier(.2,.9,.2,1); will-change: transform, opacity }
+  /* larger particles variety */
+  .decor-particles .p:nth-child(1){ width:10px;height:10px }
+  .decor-particles .p:nth-child(2){ width:6px;height:6px }
+  .decor-particles .p:nth-child(3){ width:9px;height:9px }
+  .decor-particles .p:nth-child(4){ width:7px;height:7px }
+
+  @keyframes particleFloat{ 0%{ transform: translateY(0) scale(0.9); opacity:0.6 } 50%{ transform: translateY(-16px) scale(1.05); opacity:1 } 100%{ transform: translateY(0) scale(0.9); opacity:0.6 } }
+
+  /* Boost mode increases opacities and starts subtle particle animation */
+  body.boost .decor-network{ opacity:0.16; transform: scale(1.01) }
+  /* In boost mode increase stroke/fill opacity and use darker strokes for light theme */
+  body.boost .decor-network{ opacity:0.16; transform: scale(1.01) }
+  body.boost .decor-network g{ stroke-opacity:0.14 !important; stroke: rgba(15,23,42,0.14) !important }
+  body.boost .decor-network .nodes{ fill-opacity:0.18 !important; fill: rgba(15,23,42,0.18) !important }
+  body.boost .bg-decor .blob{ opacity:0.22; filter: blur(36px) saturate(120%) }
+  /* watermark removed */
+  body.boost .decor-particles .p{ opacity:0.92; transform: translateY(-6px) scale(1); animation: particleFloat 4s ease-in-out infinite }
+
+  @media (prefers-reduced-motion: reduce){
+    body.boost .decor-particles .p{ animation:none; opacity:0.7; transform:none }
+    .decor-network, .bg-decor .blob{ transition:none !important }
+  }
+  /* Dark mode overrides: keep white/light strokes and particles for dark backgrounds */
+  body.dark .decor-network g{ stroke: #fff; stroke-opacity:0.06 }
+  body.dark .decor-network .nodes{ fill: #fff; fill-opacity:0.06 }
+  body.dark .decor-particles .p{ background: radial-gradient(circle at 30% 30%, #ffffff, rgba(160,230,255,0.9)) }
+  /* Light-mode enhancements: make sky decorations more visible in light (non-dark) mode */
+  @media (prefers-color-scheme: light){
+    body:not(.dark) .bg-decor .blob{ opacity:0.22; filter: blur(30px) saturate(140%); }
+    body:not(.dark) .decor-wave{ opacity:0.28; filter: blur(4px) saturate(140%); }
+    body:not(.dark) .decor-clouds{ opacity:0.22; transform: translateY(-4px); }
+    body:not(.dark) .decor-sun{ opacity:0.32; }
+    body:not(.dark) .decor-particles .p{ opacity:0.9; box-shadow:0 12px 30px rgba(32,102,255,0.14); }
+    body:not(.dark) .decor-grid{ opacity:0.12 !important; }
+    body:not(.dark) header{ background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.84)); box-shadow: var(--elevation-1); }
+    body:not(.dark) .card{ border-color: rgba(11,95,255,0.06); }
+  }
+  </style>
+</head>
+<body>
+
+<!-- Decorative background layer -->
+<div class="bg-decor" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="pattern"></div>
+  <div class="texture" aria-hidden="true"></div>
+  <svg class="decor-wave" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path d="M0 80 C200 120 400 40 600 80 C800 120 1000 40 1200 80 L1200 200 L0 200 Z" fill="url(#waveGrad)" />
+    <defs>
+      <linearGradient id="waveGrad" x1="0" x2="1">
+        <stop offset="0%" stop-color="#e6f7ff" />
+        <stop offset="45%" stop-color="#bfefff" />
+        <stop offset="100%" stop-color="#8ed2ff" />
+      </linearGradient>
+    </defs>
+  </svg>
+  <div class="decor-sun" aria-hidden="true"></div>
+  <svg class="decor-clouds" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+    <g>
+      <path class="cloud c1" d="M60 80c30-22 90-32 140-12s80 60 160 48 120-80 60-106-220-6-320 30-120 70-140 146z" />
+      <path class="cloud c2" d="M420 40c34-18 110-28 160-8s90 50 180 40 140-70 80-94-260-8-360 24-120 56-140 98z" />
+      <path class="cloud c3" d="M820 90c26-16 74-26 120-10s64 42 128 36 96-48 56-68-160-6-220 18-80 46-84 84z" />
+    </g>
+  </svg>
+  <div class="decor-grain" aria-hidden="true"></div>
+  <!-- user-provided background removed -->
+  <!-- STEM-themed decor: tech grid, island silhouette (Philippines-inspired), and watermark -->
+  <svg class="decor-grid" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true" focusable="false" style="position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.09">
+    <defs>
+      <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+        <path d="M48 0H0V48" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grid)" />
+  </svg>
+  <svg class="decor-islands" width="600" height="420" viewBox="0 0 600 420" aria-hidden="true" focusable="false" style="position:absolute;right:6%;bottom:8%;opacity:0.07;filter:blur(8px);pointer-events:none">
+    <g fill="rgba(255,255,255,0.9)">
+      <path d="M120 200c30-60 120-60 160-20s80 80 140 60 100-90 40-120-220-40-320 20-60 120-20 140z" />
+      <path d="M20 320c18-40 72-40 96-16s48 48 84 36 60-54 24-72-132-24-192 12-36 72-8 76z" />
+    </g>
+  </svg>
+  <!-- watermark removed -->
+  <!-- network overlay (low opacity) -->
+  <svg class="decor-network" width="100%" height="100%" viewBox="0 0 1200 800" aria-hidden="true" focusable="false">
+    <!-- simple node-edge network -->
+    <g stroke="#fff" stroke-opacity="0.06" stroke-width="0.8" fill="none">
+      <line x1="120" y1="140" x2="480" y2="160" />
+      <line x1="480" y1="160" x2="760" y2="220" />
+      <line x1="760" y1="220" x2="980" y2="120" />
+      <line x1="220" y1="420" x2="400" y2="300" />
+      <line x1="630" y1="420" x2="920" y2="380" />
+    </g>
+    <g class="nodes" fill="#fff" fill-opacity="0.06">
+      <circle cx="120" cy="140" r="3" />
+      <circle cx="480" cy="160" r="3" />
+      <circle cx="760" cy="220" r="3" />
+      <circle cx="980" cy="120" r="3" />
+      <circle cx="220" cy="420" r="3" />
+      <circle cx="400" cy="300" r="3" />
+      <circle cx="630" cy="420" r="3" />
+      <circle cx="920" cy="380" r="3" />
+    </g>
+  </svg>
+  <!-- subtle animated particles for boosted mode -->
+  <div class="decor-particles" aria-hidden="true">
+    <span class="p" style="left:12%;top:22%"></span>
+    <span class="p" style="left:34%;top:68%"></span>
+    <span class="p" style="left:72%;top:46%"></span>
+    <span class="p" style="left:88%;top:78%"></span>
+  </div>
+</div>
+
+<header>
+    <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+    <div>
+  <h1 style="margin-bottom:6px" class="title-lines"><span>Virtual</span><span>Gallery: Regional</span><span>Artists of Today</span></h1>
+      <p class="lead">A digital exhibit highlighting five contemporary Filipino artists and how their work reflects Filipino culture — curated by <strong>Gerald Ongtangco</strong>.</p>
+    </div>
+    <div style="margin-left:12px;display:flex;align-items:center;gap:12px;margin-top:6px;">
+      <div>
+        <label for="search" class="small" style="display:block;margin-bottom:6px;color:var(--muted)">Search</label>
+        <input id="search" type="search" placeholder="Search name, tag or excerpt" style="padding:8px 10px;border-radius:10px;border:1px solid #e6e9f2;min-width:220px">     
+      </div>
+      <button id="themeToggle" class="theme-toggle" title="Toggle dark mode">🌙</button>
+    </div>
+  </div>
+  <nav aria-label="top">
+    <a href="#artists" class="small">Artists</a>
+  </nav>
+</header>
+
+<main id="artists">
+  <div class="controls page-fade" aria-hidden="false">
+    <div class="hint">Filter by style:</div>
+    <button class="chip-filter" data-filter="surreal">Surreal</button>
+    <button class="chip-filter" data-filter="figurative">Figurative</button>
+    <button class="chip-filter" data-filter="social">Social</button>
+    <button class="chip-filter" data-filter="pop">Pop</button>
+    <button class="chip-filter" data-filter="folk">Folk</button>
+    <div class="actions">
+      <div id="visibleCount" class="count">5</div>
+      <button id="clearFilters" class="small-btn" aria-label="Clear filters">Clear</button>
+      <button id="toggleDecor" class="small-btn" aria-pressed="false" title="Toggle background boost">Boost</button>
+        <!-- user background controls removed -->
+    </div>
+  </div>
+  <section class="grid">
+
+  <!-- Andres Barrioquinto -->
+  <article class="card" data-artist="barrioquinto" data-style="surreal" >
+      <div class="media" data-open="barrioquinto" role="button" aria-label="Open Andres Barrioquinto details" style="cursor:pointer">
+        <img loading="lazy" src="https://www.creationcontemporaine-asie.com/medias/images/andres-barrioquinto-handsome-devil-autoportrait-2011-oil-on-canvas.jpg" alt="Andres Barrioquinto — Handsome Devil (self-portrait)">
+        <div class="img-title">Andres Barrioquinto</div>
+        <div class="media-overlay" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="content">
+        <h3 class="artist-name">Andres Barrioquinto</h3>
+        <p class="artist-meta">Surrealistic portraits, layered with Japanese patterns.</p>
+        <p class="excerpt">
+          Andres Barrioquinto (b.1975) creates surreal, layered portraits that combine Western technique with Japanese ukiyo-e influences and Filipino iconography. His use of familiar faces, devotional poses and patterned backgrounds connects to Philippine visual traditions and contemporary Filipino identity. Notable auction record: Procession (2019) sold for approx. $359,777. Exhibitions include Tang Contemporary Art (Bangkok) and the National Museum (Portraits, 2018).
+        </p>
+        <div class="actions">
+          <button class="btn" data-open="barrioquinto" data-id="btn-barrioquinto"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">View details</span></button>
+          <a class="btn" href="https://www.creationcontemporaine-asie.com/en/pages/philippines-artists.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3h7v7M21 3L10 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">Source</span></a>
+        </div>
+      </div>
+    </article>
+
+  <!-- Elmer Borlongan -->
+  <article class="card" data-artist="borlongan" data-style="figurative">
+      <div class="media" data-open="borlongan" role="button" aria-label="Open Elmer Borlongan details" style="cursor:pointer">
+        <img loading="lazy" src="https://www.creationcontemporaine-asie.com/medias/images/elmer-borlongan-shelter-oil-on-canvas-1993-2.jpg" alt="Elmer Borlongan — Shelter">
+        <div class="img-title">Elmer Borlongan</div>
+        <div class="media-overlay" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="content">
+        <h3 class="artist-name">Elmer Misa Borlongan</h3>
+        <p class="artist-meta">Figurative expressionism focused on everyday life and resilience.</p>
+        <p class="excerpt" data-truncated>
+          Elmer Borlongan (b.1967) portrays everyday Filipinos with empathy — his figures, urban scenes and market settings reflect social histories, community resilience and local rituals. Borlongan's work is rooted in Filipino lived experience and civic memory. Awards include the CCP 13 Artists Award (1994) and retrospectives at the Metropolitan Museum and Ayala Museum.
+        </p>
+        <div class="actions">
+          <button class="btn" data-open="borlongan" data-id="btn-borlongan"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">View details</span></button>
+          <a class="btn" href="https://www.creationcontemporaine-asie.com/en/pages/philippines-artists.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3h7v7M21 3L10 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">Source</span></a>
+        </div>
+      </div>
+    </article>
+
+  <!-- Leslie de Chavez -->
+  <article class="card" data-artist="dechavez" data-style="social">
+      <div class="media" data-open="dechavez" role="button" aria-label="Open Leslie de Chavez details" style="cursor:pointer">
+        <img loading="lazy" src="https://www.creationcontemporaine-asie.com/medias/images/leslie-de-chavez-god-is-on-our-side-2013-oil-on-canvas.jpg" alt="Leslie de Chavez — God is on our side">
+        <div class="img-title">Leslie de Chavez</div>
+        <div class="media-overlay" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="content">
+        <h3 class="artist-name">Leslie de Chavez</h3>
+        <p class="artist-meta">Expressive paintings and installations with social commentary.</p>
+        <p class="excerpt">
+          Leslie de Chavez (b.1978) creates bold, socially engaged works that reference Philippine history, faith and power structures. Through expressive canvases and installations he interrogates how colonial legacies and religious iconography shape Filipino social values and collective memory.
+        </p>
+        <div class="actions">
+          <button class="btn" data-open="dechavez" data-id="btn-dechavez"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">View details</span></button>
+          <a class="btn" href="https://www.lesliedechavez.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3h7v7M21 3L10 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">Artist site</span></a>
+        </div>
+      </div>
+    </article>
+
+  <!-- Ronald Ventura -->
+  <article class="card" data-artist="ventura" data-style="pop">
+      <div class="media" data-open="ventura" role="button" aria-label="Open Ronald Ventura details" style="cursor:pointer">
+        <img loading="lazy" src="https://www.creationcontemporaine-asie.com/medias/images/ronald-ventura-comic-lives-2018.jpg" alt="Ronald Ventura — Comic Lives">
+        <div class="img-title">Ronald Ventura</div>
+        <div class="media-overlay" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="content">
+        <h3 class="artist-name">Ronald Ventura</h3>
+        <p class="artist-meta">A leader among younger Filipino contemporary artists; mixed media, sculpture and painting.</p>
+        <p class="excerpt">
+          Ronald Ventura (b.1973) mixes hyperrealism, pop-culture motifs and local myth to comment on contemporary Filipino life — his layered imagery references folk narratives, urban folklore and global visual languages to reflect changing identities in the Philippines.
+        </p>
+        <div class="actions">
+          <button class="btn" data-open="ventura" data-id="btn-ventura"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">View details</span></button>
+          <a class="btn" href="https://www.creationcontemporaine-asie.com/en/pages/philippines-artists.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3h7v7M21 3L10 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">Source</span></a>
+        </div>
+      </div>
+    </article>
+
+  <!-- Rodel Tapaya-Garcia -->
+  <article class="card" data-artist="tapaya" data-style="folk">
+      <div class="media" data-open="tapaya" role="button" aria-label="Open Rodel Tapaya details" style="cursor:pointer">
+        <img loading="lazy" src="https://www.creationcontemporaine-asie.com/medias/images/rodel-tapaya-big-shoes-to-fill-catching-the-big-fish-big-feet-acrylic-on-burlap-2018.jpg" alt="Rodel Tapaya — Big Shoes to Fill">
+        <div class="img-title">Rodel Tapaya</div>
+        <div class="media-overlay" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="content">
+        <h3 class="artist-name">Rodel Tapaya-Garcia</h3>
+        <p class="artist-meta">Narrative painting blending folk tales and contemporary life.</p>
+        <p class="excerpt">
+          Rodel Tapaya (b.1980) transforms folk tales, myths and ritual imagery into contemporary narratives that speak to Filipino cultural memory. His compositions revisit origin stories, community myths and moral parables, making traditional motifs relevant to modern audiences.
+        </p>
+        <div class="actions">
+          <button class="btn" data-open="tapaya" data-id="btn-tapaya"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">View details</span></button>
+          <a class="btn" href="https://www.rodeltapayaart.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3h7v7M21 3L10 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">Artist site</span></a>
+        </div>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<!-- Exhibit kit removed per user request -->
+
+<!-- Modal template -->
+<div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div style="display:flex;gap:18px;align-items:flex-start;">
+      <img id="modalImg" src="" alt="">
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div>
+            <h2 id="modalTitle">Artist name</h2>
+            <p id="modalSub" class="small"></p>
+          </div>
+          <button class="close-btn" id="modalClose" title="Close">&times;</button>
+        </div>
+
+        <p id="modalBio" style="margin-top:12px;color:#2b3443"></p>
+
+        <ul id="modalMeta" class="meta-list"></ul>
+
+        <p class="credit">Images and profile content sourced from Creation Contemporaine Asie. See source links below each profile. Curated by <strong>Gerald Ongtangco</strong>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;align-items:center;padding-top:18px;border-top:1px solid rgba(15,23,42,0.04)">
+    <div>
+      <strong>Credits</strong>
+      <div class="small">Profiles & images: Creation Contemporaine Asie (selected). External artist websites linked where available.</div>
+    </div>
+    <div class="small">Built for a curated presentation — images remain copyrighted to their original owners; use for demonstration only. Curated & presented by <strong>Gerald Ongtangco</strong>.</div>
+  </div>
+</footer>
+
+<!-- user background inputs removed -->
+
+<script>
+  // Data for modal — condensed from source page (sourced above)
+  const artists = {
+    barrioquinto: {
+      name: "Andres Barrioquinto",
+      img: "https://www.creationcontemporaine-asie.com/medias/images/andres-barrioquinto-handsome-devil-autoportrait-2011-oil-on-canvas.jpg",
+      tag: "Surreal portraits with Japanese patterns",
+  bio: "Andres Barrioquinto (born 1975) trained in the Philippines and developed a signature style of surreal, hyperreal portraits layered with Japanese ukiyo-e patterns. He has exhibited at Tang Contemporary Art (Bangkok) and mounted a National Museum \"Portraits\" exhibition in 2018.",
+      slideNote: {
+        title: "Andres Barrioquinto — Surreal Portraits",
+        caption: "Barrioquinto blends portraiture, pattern and devotional poses to reflect Filipino visual identity.",
+        speaker: "Explain how Barrioquinto's layered patterns and familiar faces reference devotional portraits and popular imagery in the Philippines, showing continuity between tradition and contemporary practice."
+      },
+      meta: [
+        "Auction record: Procession — approx. $359,777 (2019 source).",
+        "Exhibitions: Tang Contemporary Art (Realistic Abstraction, 2022), National Museum (Portraits, 2018).",
+        "Publication: Comprehensive monograph published in 2022."
+      ],
+      source: "https://www.creationcontemporaine-asie.com/en/pages/philippines-artists.html"
+    },
+    borlongan: {
+      name: "Elmer Misa Borlongan",
+      img: "https://www.creationcontemporaine-asie.com/medias/images/elmer-borlongan-shelter-oil-on-canvas-1993-2.jpg",
+      tag: "Figurative expressionism about everyday life",
+      bio: "Elmer Borlongan (born 1967) is known for stylized figuration portraying everyday Filipino life; his early work focused on urban poverty and later shifted to brighter rural themes after relocating to Zambales. He trained under Fernando Sena and graduated from the UP College of Fine Arts.",
+      slideNote: {
+        title: "Elmer Borlongan — Everyday Figures",
+        caption: "Borlongan's figures and market scenes visualize community resilience and social memory in Filipino life.",
+        speaker: "Highlight Borlongan's focus on quotidian scenes — talk about how his color shifts and subject choices document social histories and the dignity of common life."
+      },
+      meta: [
+        "Awards: Cultural Center of the Philippines 13 Artists Award (1994); Metrobank Foundation awards.",
+        "Exhibitions: Retrospectives at Metropolitan Museum (Manila) and Ayala Museum; international shows and solo exhibitions.",
+        "Auction: 'Quiapo' and other works have achieved high prices at Leon Gallery auctions."
+      ],
+      source: "https://www.creationcontemporaine-asie.com/en/pages/philippines-artists.html"
+    },
+    dechavez: {
+      name: "Leslie de Chavez",
+      img: "https://www.creationcontemporaine-asie.com/medias/images/leslie-de-chavez-god-is-on-our-side-2013-oil-on-canvas.jpg",
+      tag: "Socially incisive paintings & installations",
+      bio: "Leslie de Chavez (born 1978) addresses colonialism, religion, politics and social values through expressive painting and installations. A founder of Project Space Pilipinas, he has represented the Philippines in multiple international exhibitions.",
+      slideNote: {
+        title: "Leslie de Chavez — Social Commentary",
+        caption: "De Chavez uses religious iconography and bold gestures to challenge colonial narratives and contemporary social values.",
+        speaker: "Discuss specific works that reframe religious images and colonial histories, and how this provokes reflection on modern Philippine identity."
+      },
+      meta: [
+        "Representation: Arario Gallery (since 2006).",
+        "Projects: Founder of Project Space Pilipinas (PSP).",
+        "Exhibitions: Solo and group shows across Asia, with recent work addressing climate and social themes."
+      ],
+      source: "https://www.creationcontemporaine-asie.com/en/pages/philippines-artists.html"
+    },
+    ventura: {
+      name: "Ronald Ventura",
+      img: "https://www.creationcontemporaine-asie.com/medias/images/ronald-ventura-comic-lives-2018.jpg",
+      tag: "Mixed media, hyperrealism, pop-culture overlays",
+      bio: "Ronald Ventura (born 1973) blends hyperrealist technique, graffiti and pop imagery across painting, sculpture and mixed media. He is one of the Philippines' most commercially successful contemporary artists.",
+      slideNote: {
+        title: "Ronald Ventura — Layered Pop and Myth",
+        caption: "Ventura layers pop culture, myth and hyperreal technique to explore identity and urban narratives in the Philippines.",
+        speaker: "Point out how Ventura uses global visual languages alongside local myths to comment on rapid cultural change and hybrid identity in Filipino cities."
+      },
+      meta: [
+        "Auction records: 'Party Animal' sold at Christie's HK (2021); multiple works sold at Sotheby's and Christie's for six- and seven-figure sums.",
+        "Exhibitions: Retrospectives and major solo shows including Karuizawa New Art Museum (Japan), Tyler Rollins (NY) and Pinto Art Museum (Philippines)."
+      ],
+      source: "https://www.creationcontemporaine-asie.com/en/pages/philippines-artists.html"
+    },
+    tapaya: {
+      name: "Rodel Tapaya-Garcia",
+      img: "https://www.creationcontemporaine-asie.com/medias/images/rodel-tapaya-big-shoes-to-fill-catching-the-big-fish-big-feet-acrylic-on-burlap-2018.jpg",
+      tag: "Narrative painting inspired by folklore",
+      bio: "Rodel Tapaya (born 1980) is celebrated for narrative paintings that fuse Philippine folklore, myth and social commentary. He studied at Parsons and the University of the Philippines and won the Signature Art Prize in 2011.",
+      slideNote: {
+        title: "Rodel Tapaya — Folk Narratives",
+        caption: "Tapaya adapts folk tales and moral parables into vibrant contemporary paintings rooted in Philippine cultural memory.",
+        speaker: "Describe how Tapaya reinterprets origin myths and local tales, connecting viewers to collective storytelling traditions and their modern resonances."
+      },
+      meta: [
+        "Awards: Signature Art Prize (2011); international recognition across Asia.",
+        "Exhibitions: Yavuz Gallery (Bangkok), Jack Bell (London), Tang Contemporary Art (Beijing) and others."
+      ],
+      source: "https://www.creationcontemporaine-asie.com/en/pages/philippines-artists.html"
+    },
+  };
+
+  // Modal controls
+  const backdrop = document.getElementById('modalBackdrop');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalSub = document.getElementById('modalSub');
+  const modalBio = document.getElementById('modalBio');
+  const modalImg = document.getElementById('modalImg');
+  const modalMeta = document.getElementById('modalMeta');
+  const modalClose = document.getElementById('modalClose');
+
+  document.querySelectorAll('[data-open]').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      const id = btn.getAttribute('data-open');
+      // prefer the wrapper that handles focus/trap if available
+      const opener = (window.openArtistModal && typeof window.openArtistModal === 'function') ? window.openArtistModal : openArtistModal;
+      try{ opener(id); }catch(err){ console && console.error && console.error('open modal error', err); }
+    });
+  });
+
+  function openArtistModal(id){
+    const a = artists[id];
+    if(!a) return;
+    modalTitle.textContent = a.name;
+    modalSub.textContent = a.tag;
+    modalBio.textContent = a.bio;
+    modalImg.src = a.img;
+    modalImg.alt = a.name;
+    modalMeta.innerHTML = '';
+    a.meta.forEach(m=>{
+      const li = document.createElement('li'); li.textContent = m; modalMeta.appendChild(li);
+    });
+    // use CSS class to animate backdrop and modal
+    backdrop.classList.add('show');
+    const modalEl = document.querySelector('.modal');
+    modalEl.classList.add('show');
+    backdrop.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    const modalEl = document.querySelector('.modal');
+    // remove show class to trigger CSS transition
+    modalEl.classList.remove('show');
+    backdrop.classList.remove('show');
+    backdrop.setAttribute('aria-hidden','true');
+    // restore scroll immediately if modal is not visible
+    try{
+      if(!modalEl.classList.contains('show')) document.body.style.overflow = '';
+    }catch(e){ document.body.style.overflow = ''; }
+    // clear any inline display (defensive)
+    backdrop.style.display = '';
+    modalEl.style.display = '';
+  }
+
+  // wire close interactions to the public closeArtistModal wrapper so cleanup runs
+  // use safe wrappers that call window.closeArtistModal at event time (it's defined later)
+  modalClose.addEventListener('click', ()=>{ if(window.closeArtistModal) window.closeArtistModal(); });
+  backdrop.addEventListener('click', (ev)=>{ if(ev.target === backdrop && window.closeArtistModal) window.closeArtistModal(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && window.closeArtistModal) window.closeArtistModal(); });
+
+  // Live search filter for artist cards
+  const searchInput = document.getElementById('search');
+  const cards = Array.from(document.querySelectorAll('.card'));
+  function normalize(s){ return (s||'').toLowerCase().trim(); }
+  // active style filters will be stored here
+  const activeFilters = new Set();
+
+  function filterCards(q){
+    const qn = normalize(q);
+    cards.forEach(card=>{
+      const name = normalize(card.querySelector('.artist-name')?.textContent);
+      const tag = normalize(card.querySelector('.artist-meta')?.textContent);
+      const excerpt = normalize(card.querySelector('.excerpt')?.textContent);
+      const style = normalize(card.getAttribute('data-style'));
+      const textMatch = !qn || name.includes(qn) || tag.includes(qn) || excerpt.includes(qn);
+      const styleMatch = activeFilters.size === 0 || (style && Array.from(activeFilters).includes(style));
+      const visible = textMatch && styleMatch;
+      card.style.display = visible ? 'flex' : 'none';
+    });
+  }
+  if(searchInput){
+    searchInput.addEventListener('input',(e)=>filterCards(e.target.value));
+    searchInput.addEventListener('keydown',(e)=>{ if(e.key === 'Escape'){ e.target.value=''; filterCards(''); e.target.blur(); } });
+  }
+
+  // Chip filter behavior: toggle active filters and re-run filterCards
+  document.querySelectorAll('.chip-filter').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const key = chip.getAttribute('data-filter');
+      if(chip.classList.contains('active')){ chip.classList.remove('active'); activeFilters.delete(key); }
+      else { chip.classList.add('active'); activeFilters.add(key); }
+      filterCards(searchInput ? searchInput.value : '');
+    });
+  });
+
+  // visible count updater
+  const visibleCountEl = document.getElementById('visibleCount');
+  function updateVisibleCount(){
+    const visible = cards.filter(c => c.style.display !== 'none').length;
+    if(visibleCountEl) visibleCountEl.textContent = String(visible);
+  }
+  // run on load and after every filter change
+  window.addEventListener('load', ()=> setTimeout(()=>{ filterCards(searchInput ? searchInput.value : ''); updateVisibleCount(); }, 90));
+
+  // clear filters button
+  const clearBtn = document.getElementById('clearFilters');
+  if(clearBtn){ clearBtn.addEventListener('click', ()=>{
+    activeFilters.clear(); document.querySelectorAll('.chip-filter.active').forEach(n=>n.classList.remove('active'));
+    if(searchInput) searchInput.value=''; filterCards(''); updateVisibleCount();
+  }); }
+
+  // toggle decor button
+  const toggleDecorBtn = document.getElementById('toggleDecor');
+  if(toggleDecorBtn){ toggleDecorBtn.addEventListener('click', ()=>{
+    const on = document.body.classList.toggle('boost'); toggleDecorBtn.setAttribute('aria-pressed', String(on));
+    // update label briefly to reflect state
+    toggleDecorBtn.textContent = on ? 'Boost ✓' : 'Boost';
+  }); }
+
+  // ensure we update count whenever filterCards is invoked by other handlers
+  const _filterCards = filterCards;
+  filterCards = function(q){ _filterCards(q); updateVisibleCount(); };
+
+  // Make media clickable (open modal)
+  document.querySelectorAll('.media[data-open]').forEach(m=>{
+    m.addEventListener('click', ()=>{ const id = m.getAttribute('data-open'); const opener = (window.openArtistModal && typeof window.openArtistModal === 'function') ? window.openArtistModal : openArtistModal; try{ opener(id); }catch(err){ console && console.error && console.error('open modal error', err); } });
+  });
+
+  // Excerpt read-more toggles
+  document.querySelectorAll('.excerpt[data-truncated]').forEach(ex =>{
+    const more = document.createElement('button'); more.className='read-more'; more.type='button'; more.setAttribute('aria-expanded','false'); more.textContent='Read more';
+    // smooth height transition: animate to measured height
+    more.addEventListener('click', ()=>{
+      const isExp = ex.classList.toggle('expanded');
+      more.textContent = isExp ? 'Show less' : 'Read more';
+      more.setAttribute('aria-expanded', String(isExp));
+      if(isExp){
+        // measure natural height
+        const prev = ex.style.maxHeight;
+        ex.style.maxHeight = '1000px';
+        const h = ex.scrollHeight + 'px';
+        ex.style.maxHeight = prev; // reset so we can transition
+        requestAnimationFrame(()=>{ ex.style.maxHeight = h; });
+      } else {
+        ex.style.maxHeight = '78px';
+      }
+    });
+    ex.parentElement.appendChild(more);
+  });
+
+  // Modal focus-trap and focus restore
+  let lastFocus = null;
+  // trapFocus returns a cleanup function to remove the listener
+  function trapFocus(modalEl){
+    const focusable = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const first = focusable[0]; const last = focusable[focusable.length-1];
+    function onKey(e){
+      if(e.key === 'Tab'){
+        if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+    }
+    modalEl.addEventListener('keydown', onKey);
+    return function cleanup(){ modalEl.removeEventListener('keydown', onKey); };
+  }
+
+  // enhance openArtistModal to save focus and trap
+  const _openArtistModal = openArtistModal;
+  let _trapCleanup = null;
+  window.openArtistModal = function(id){ lastFocus = document.activeElement; _openArtistModal(id); const modal = document.querySelector('.modal');
+    // wait for CSS transition to finish before moving focus; provide a fallback
+    const onShown = ()=>{
+      // ensure modal/backdrop sit above decor
+      backdrop.style.zIndex = 120;
+      modal.style.zIndex = 121;
+      try{ _trapCleanup = trapFocus(modal); }catch(e){}
+      // focus the close button inside modal
+      const closeBtn = document.getElementById('modalClose'); if(closeBtn) closeBtn.focus();
+      modal.removeEventListener('transitionend', onShown);
+      if(shownTimeout) clearTimeout(shownTimeout);
+    };
+    modal.addEventListener('transitionend', onShown);
+    // fallback: ensure we still set up trap after 400ms if transitionend doesn't fire
+    const shownTimeout = setTimeout(onShown, 420);
+  };
+  // modify close to restore focus
+  const _closeModal = closeModal;
+  window.closeArtistModal = function(){ _closeModal(); if(typeof _trapCleanup === 'function'){ try{ _trapCleanup(); }catch(e){} _trapCleanup = null } if(lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus(); };
+  // make existing close use restored function
+  // ensure newly added listeners are consistent (previous attempts to remove inline listeners were no-ops)
+
+  // Theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  function setTheme(dark){
+    if(dark){ document.documentElement.classList.add('dark'); document.body.classList.add('dark'); localStorage.setItem('dark','1'); themeToggle.textContent='☀️' }
+    else { document.documentElement.classList.remove('dark'); document.body.classList.remove('dark'); localStorage.removeItem('dark'); themeToggle.textContent='🌙' }
+  }
+  // init
+  setTheme(!!localStorage.getItem('dark'));
+  themeToggle.addEventListener('click', ()=> setTheme(!document.documentElement.classList.contains('dark')));
+
+  // Back to top
+  const backBtn = document.createElement('button'); backBtn.id='backToTop'; backBtn.title='Back to top'; backBtn.innerHTML='↑'; document.body.appendChild(backBtn);
+  window.addEventListener('scroll', ()=>{ if(window.scrollY > 420) backBtn.style.display='block'; else backBtn.style.display='none' });
+  backBtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+
+  // entrance animation: stagger shows
+  window.addEventListener('load', ()=>{
+    const visibleCards = Array.from(document.querySelectorAll('.card'));
+    visibleCards.forEach((c,i)=> setTimeout(()=> c.classList.add('show'), i*90));
+  });
+
+  // header shadow on scroll
+  (function(){
+    const hdr = document.querySelector('header');
+    function onScroll(){ if(window.scrollY > 8) hdr.classList.add('scrolled'); else hdr.classList.remove('scrolled'); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  // smooth scroll for header nav links
+  (function(){
+    document.querySelectorAll('header nav a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{ e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if(t) t.scrollIntoView({behavior:'smooth', block:'start'}); });
+    });
+  })();
+
+  // page fade in
+  (function(){
+    const root = document.documentElement;
+    document.body.classList.add('page-fade');
+    setTimeout(()=> document.body.classList.add('visible'), 30);
+    // make images fade in when loaded
+    document.querySelectorAll('.card img').forEach(img =>{
+      if(img.complete && img.naturalWidth){ img.classList.add('img-loaded'); img.style.opacity = 1; }
+      img.addEventListener('load', ()=>{ img.classList.add('img-loaded'); });
+    });
+  })();
+
+  // subtle 3D tilt on cards
+  (function(){
+    const cards = Array.from(document.querySelectorAll('.card'));
+    cards.forEach(card=>{
+      function onMove(e){
+        const r = card.getBoundingClientRect();
+        const cx = r.left + r.width/2; const cy = r.top + r.height/2;
+        const dx = (e.clientX - cx)/r.width; const dy = (e.clientY - cy)/r.height;
+        const rx = (-dy*6).toFixed(2); const ry = (dx*8).toFixed(2);
+        card.style.transform = `translateY(-12px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        card.classList.add('tilt');
+      }
+      function onLeave(){ card.style.transform = ''; card.classList.remove('tilt'); }
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', onLeave);
+    });
+  })();
+
+  // modal close animation: when closing, add class 'closing' to animate out
+  (function(){
+    const modal = document.querySelector('.modal');
+    const origClose = window.closeArtistModal;
+    window.closeArtistModal = function(){
+      if(modal.classList.contains('show')){
+        modal.classList.add('closing');
+        setTimeout(()=>{ modal.classList.remove('closing'); origClose && origClose(); }, 260);
+      } else { origClose && origClose(); }
+    };
+  })();
+
+  // blob parallax on mouse move (subtle)
+  (function(){
+    const decor = document.querySelector('.bg-decor'); if(!decor) return;
+    const blobA = decor.querySelector('.blob-a'); const blobB = decor.querySelector('.blob-b');
+    window.addEventListener('mousemove', (e)=>{
+      const x = e.clientX / window.innerWidth - 0.5; const y = e.clientY / window.innerHeight - 0.5;
+      if(blobA) blobA.style.transform = `translate(${x*18}px, ${y*12}px) scale(1.02)`;
+      if(blobB) blobB.style.transform = `translate(${x*-12}px, ${y*-10}px) scale(1.01)`;
+    }, { passive:true });
+  })();
+
+  // decor parallax (grid, islands, watermark) — respects prefers-reduced-motion
+  (function(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const decor = document.querySelector('.bg-decor'); if(!decor) return;
+    const grid = decor.querySelector('.decor-grid');
+    const islands = decor.querySelector('.decor-islands');
+    const watermark = decor.querySelector('.watermark');
+    function onMove(e){
+      const x = (e.clientX / window.innerWidth - 0.5);
+      const y = (e.clientY / window.innerHeight - 0.5);
+      if(grid) grid.style.transform = `translate(${x*6}px, ${y*6}px)`;
+      if(islands) islands.style.transform = `translate(${x*-12}px, ${y*-8}px)`;
+      if(watermark) watermark.style.transform = `translate(${x*10}px, ${y*4}px) rotate(-12deg)`;
+    }
+    window.addEventListener('mousemove', onMove, { passive:true });
+  })();
+
+  // user background features removed per request
+
+</script>
+</body>
+</html>
